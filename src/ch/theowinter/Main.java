@@ -25,5 +25,12 @@ public class Main {
         }catch (ParseException e){
             System.out.println("error");
         }
+
+        GoogleCalendarChain googleCalendarChain = new GoogleCalendarChain();
+        try{
+            googleCalendarChain.setUp();
+        } catch (Exception e){
+
+        }
     }
 }

@@ -8,16 +8,22 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.calendar.Calendar;
+import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.Events;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
 public class GoogleCalendarChain {
 
 
-    public void setUp() throws IOException, GeneralSecurityException {
+    public Calendar setUp() throws IOException, GeneralSecurityException {
         HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         JacksonFactory jsonFactory = JacksonFactory.getDefaultInstance();
 
@@ -58,8 +64,34 @@ public class GoogleCalendarChain {
                 .build().setFromTokenResponse(response);
 
         Calendar service = new Calendar.Builder(httpTransport, jsonFactory, credential)
-                .setApplicationName("YOUR_APPLICATION_NAME").build();
+                .setApplicationName("Chains").build();
+        return service;
+    }
 
+    public List<ChainEvent> compileChain() throws IOException, GeneralSecurityException{
 
+        Calendar service = setUp();
+
+        // Retrieve the calendar
+        com.google.api.services.calendar.model.Calendar calendar =
+                service.calendars().get("primary").execute();
+
+        List<ChainEvent> eventList = new ArrayList<ChainEvent>();
+        String pageToken = null;
+        do {
+            Events events = service.events().list("primary").setPageToken(pageToken).execute();
+            List<Event> items = events.getItems();
+            for (Event event : items) {
+                //System.out.println(event.getSummary()+" "+event.getStart().getDate()+" "+event.getStart().getDateTime());
+                if(event.getStart()!= null && event.getStart().getDateTime() != null){
+                    eventList.add(new ChainEvent(event.getSummary(), new Date(event.getStart().getDateTime().getValue())));
+                } else if (event.getStart()!= null && event.getStart().getDate() != null) {
+                    eventList.add(new ChainEvent(event.getSummary(), new Date(event.getStart().getDate().getValue())));
+                }
+            }
+            pageToken = events.getNextPageToken();
+        } while (pageToken != null);
+
+        return eventList;
     }
 }

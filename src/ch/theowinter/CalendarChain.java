@@ -16,7 +16,7 @@ public class CalendarChain {
         this.endDate = endDate;
     }
 
-    public List<Event> compileChain(){
+    public List<ChainEvent> compileChain(){
         if(endDate == null){
             endDate = new Date();
         }
@@ -29,9 +29,9 @@ public class CalendarChain {
         calendar.setTime(startDate);
         int startyear = calendar.get(Calendar.YEAR);
 
-        List<Event> resultList = new ArrayList<Event>();
+        List<ChainEvent> resultList = new ArrayList<ChainEvent>();
         for(int i=startyear; i<endyear; i++){
-            resultList.add(new Event(name, calendar.getTime()));
+            resultList.add(new ChainEvent(name, calendar.getTime()));
             calendar.add(Calendar.YEAR, 1);
         }
         return resultList;

@@ -2,11 +2,11 @@ package ch.theowinter;
 
 import java.util.Date;
 
-public class Event implements Comparable<Event>{
+public class ChainEvent implements Comparable<ChainEvent>{
     public String name;
     public Date occurance;
 
-    public Event(String name, Date occurance) {
+    public ChainEvent(String name, Date occurance) {
         this.name = name;
         this.occurance = occurance;
     }
@@ -16,10 +16,10 @@ public class Event implements Comparable<Event>{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Event event = (Event) o;
+        ChainEvent chainEvent = (ChainEvent) o;
 
-        if (!name.equals(event.name)) return false;
-        if (!occurance.equals(event.occurance)) return false;
+        if (!name.equals(chainEvent.name)) return false;
+        if (!occurance.equals(chainEvent.occurance)) return false;
 
         return true;
     }
@@ -32,7 +32,7 @@ public class Event implements Comparable<Event>{
     }
 
     @Override
-    public int compareTo(Event otherEvent) {
+    public int compareTo(ChainEvent otherEvent) {
         if(this.occurance == otherEvent.occurance){
             return 0;
         } else if(this.occurance.compareTo(otherEvent.occurance)>0){

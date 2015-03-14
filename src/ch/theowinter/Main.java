@@ -14,23 +14,20 @@ public class Main {
         try{
             Date date = format.parse(birthday);
             CalendarChain birthdays = new CalendarChain("Birthday", date, null);
-            List<Event> eventList = birthdays.compileChain();
+            List<ChainEvent> eventList = birthdays.compileChain();
 
-            Event someEvent = new Event("Some Event", format.parse("12/08/1995"));
-            eventList.add(someEvent);
+            GoogleCalendarChain googleCalendarChain = new GoogleCalendarChain();
+            try{
+                eventList.addAll(googleCalendarChain.compileChain());
+            } catch (Exception e){
+                System.out.println(e);
+            }
 
             TextPublisher publisher = new TextPublisher(eventList);
             publisher.publish();
 
         }catch (ParseException e){
             System.out.println("error");
-        }
-
-        GoogleCalendarChain googleCalendarChain = new GoogleCalendarChain();
-        try{
-            googleCalendarChain.setUp();
-        } catch (Exception e){
-
         }
     }
 }

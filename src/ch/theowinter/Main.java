@@ -5,13 +5,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
-
         String birthday = "15/09/1991";
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         try{
@@ -19,12 +16,14 @@ public class Main {
             CalendarChain birthdays = new CalendarChain("Birthday", date, null);
             List<Event> eventList = birthdays.compileChain();
 
+            Event someEvent = new Event("Some Event", format.parse("12/08/1995"));
+            eventList.add(someEvent);
+
             TextPublisher publisher = new TextPublisher(eventList);
             publisher.publish();
 
         }catch (ParseException e){
             System.out.println("error");
         }
-
     }
 }

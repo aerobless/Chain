@@ -2,9 +2,6 @@ package ch.theowinter;
 
 import java.util.Date;
 
-/**
- * Created by theowinter on 14/03/15.
- */
 public class Event {
     public String name;
     public Date occurance;

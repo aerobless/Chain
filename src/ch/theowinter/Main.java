@@ -18,6 +18,10 @@ public class Main {
             Date date = format.parse(birthday);
             CalendarChain birthdays = new CalendarChain("Birthday", date, null);
             List<Event> eventList = birthdays.compileChain();
+
+            TextPublisher publisher = new TextPublisher(eventList);
+            publisher.publish();
+
         }catch (ParseException e){
             System.out.println("error");
         }

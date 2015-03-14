@@ -31,8 +31,8 @@ public class CalendarChain {
 
         List<Event> resultList = new ArrayList<Event>();
         for(int i=startyear; i<endyear; i++){
-            calendar.add(Calendar.YEAR, 1);
             resultList.add(new Event(name, calendar.getTime()));
+            calendar.add(Calendar.YEAR, 1);
         }
         return resultList;
     }

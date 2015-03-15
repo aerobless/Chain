@@ -1,2 +1,2 @@
 # Chain
-Generating chains of events from various data sources.
+Generating a chain of events from various data sources.

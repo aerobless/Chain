@@ -63,3 +63,4 @@ crashlytics-build.properties
 hs_err_pid*
 
 src/ch/theowinter/Secrets.java
+out/chainIndex.html

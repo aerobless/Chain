@@ -23,7 +23,7 @@ public class Main {
                 System.out.println(e);
             }
 
-            TextPublisher publisher = new TextPublisher(eventList);
+            HTMLPublisher publisher = new HTMLPublisher(eventList);
             publisher.publish();
 
         }catch (ParseException e){

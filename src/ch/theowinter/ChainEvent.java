@@ -4,10 +4,12 @@ import java.util.Date;
 
 public class ChainEvent implements Comparable<ChainEvent>{
     public String name;
+    public String type;
     public Date occurance;
 
-    public ChainEvent(String name, Date occurance) {
+    public ChainEvent(String name, String type, Date occurance) {
         this.name = name;
+        this.type = type;
         this.occurance = occurance;
     }
 

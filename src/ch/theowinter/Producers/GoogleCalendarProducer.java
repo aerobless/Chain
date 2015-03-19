@@ -1,5 +1,8 @@
-package ch.theowinter;
+package ch.theowinter.producers;
 
+import ch.theowinter.Chain;
+import ch.theowinter.ChainEvent;
+import ch.theowinter.Secrets;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
@@ -11,16 +14,20 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-public class GoogleCalendarChain {
+public class GoogleCalendarProducer implements Chain {
+    public String chainType = "calendar";
 
 
     public Calendar setUp() throws IOException, GeneralSecurityException {
@@ -46,6 +53,15 @@ public class GoogleCalendarChain {
         System.out.println("Go to the following link in your browser:");
         System.out.println(authorizationUrl);
 
+        //Open Browser for user
+        // Create Desktop object
+        Desktop d=Desktop.getDesktop();
+        try{
+            d.browse(new URI(authorizationUrl));
+        } catch (URISyntaxException e){
+            System.out.println(e);
+        }
+
         // Read the authorization code from the standard input stream.
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("What is the authorization code?");
@@ -68,30 +84,34 @@ public class GoogleCalendarChain {
         return service;
     }
 
-    public List<ChainEvent> compileChain() throws IOException, GeneralSecurityException{
+    public List<ChainEvent> compileChain(){
+        try{
+            Calendar service = setUp();
 
-        Calendar service = setUp();
+            // Retrieve the calendar
+            com.google.api.services.calendar.model.Calendar calendar =
+                    service.calendars().get("primary").execute();
 
-        // Retrieve the calendar
-        com.google.api.services.calendar.model.Calendar calendar =
-                service.calendars().get("primary").execute();
-
-        List<ChainEvent> eventList = new ArrayList<ChainEvent>();
-        String pageToken = null;
-        do {
-            Events events = service.events().list("primary").setPageToken(pageToken).execute();
-            List<Event> items = events.getItems();
-            for (Event event : items) {
-                //System.out.println(event.getSummary()+" "+event.getStart().getDate()+" "+event.getStart().getDateTime());
-                if(event.getStart()!= null && event.getStart().getDateTime() != null){
-                    eventList.add(new ChainEvent(event.getSummary(), new Date(event.getStart().getDateTime().getValue())));
-                } else if (event.getStart()!= null && event.getStart().getDate() != null) {
-                    eventList.add(new ChainEvent(event.getSummary(), new Date(event.getStart().getDate().getValue())));
+            List<ChainEvent> eventList = new ArrayList<ChainEvent>();
+            String pageToken = null;
+            do {
+                Events events = service.events().list("primary").setPageToken(pageToken).execute();
+                List<Event> items = events.getItems();
+                for (Event event : items) {
+                    //System.out.println(event.getSummary()+" "+event.getStart().getDate()+" "+event.getStart().getDateTime());
+                    if(event.getStart()!= null && event.getStart().getDateTime() != null){
+                        eventList.add(new ChainEvent(event.getSummary(), chainType, new Date(event.getStart().getDateTime().getValue())));
+                    } else if (event.getStart()!= null && event.getStart().getDate() != null) {
+                        eventList.add(new ChainEvent(event.getSummary(), chainType, new Date(event.getStart().getDate().getValue())));
+                    }
                 }
-            }
-            pageToken = events.getNextPageToken();
-        } while (pageToken != null);
+                pageToken = events.getNextPageToken();
+            } while (pageToken != null);
 
-        return eventList;
+            return eventList;
+        } catch (Exception e){
+            System.out.println(e);
+            return null;
+        }
     }
 }

@@ -1,5 +1,9 @@
 package ch.theowinter;
 
+import ch.theowinter.producers.GoogleCalendarProducer;
+import ch.theowinter.producers.SimpleCalendarProducer;
+import ch.theowinter.publishers.HTMLPublisher;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,15 +17,11 @@ public class Main {
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         try{
             Date date = format.parse(birthday);
-            CalendarChain birthdays = new CalendarChain("Birthday", date, null);
+            SimpleCalendarProducer birthdays = new SimpleCalendarProducer("Birthday", date, null);
             List<ChainEvent> eventList = birthdays.compileChain();
 
-            GoogleCalendarChain googleCalendarChain = new GoogleCalendarChain();
-            try{
-                eventList.addAll(googleCalendarChain.compileChain());
-            } catch (Exception e){
-                System.out.println(e);
-            }
+            GoogleCalendarProducer googleCalendarProducer = new GoogleCalendarProducer();
+            eventList.addAll(googleCalendarProducer.compileChain());
 
             HTMLPublisher publisher = new HTMLPublisher(eventList);
             publisher.publish();
@@ -29,5 +29,8 @@ public class Main {
         }catch (ParseException e){
             System.out.println("error");
         }
+
+
+        System.out.println("Gracefully finished execution ..");
     }
 }

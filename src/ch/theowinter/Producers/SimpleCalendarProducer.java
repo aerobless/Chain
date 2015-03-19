@@ -1,16 +1,19 @@
-package ch.theowinter;
+package ch.theowinter.producers;
+
+import ch.theowinter.Chain;
+import ch.theowinter.ChainEvent;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class CalendarChain {
+public class SimpleCalendarProducer implements Chain {
     public String name;
     public Date startDate;
     public Date endDate;
 
-    public CalendarChain(String name, Date startDate, Date endDate) {
+    public SimpleCalendarProducer(String name, Date startDate, Date endDate) {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -30,9 +33,11 @@ public class CalendarChain {
         int startyear = calendar.get(Calendar.YEAR);
 
         List<ChainEvent> resultList = new ArrayList<ChainEvent>();
+        int counter = 1;
         for(int i=startyear; i<endyear; i++){
-            resultList.add(new ChainEvent(name, calendar.getTime()));
+            resultList.add(new ChainEvent(counter+". "+name, name, calendar.getTime()));
             calendar.add(Calendar.YEAR, 1);
+            counter++;
         }
         return resultList;
     }

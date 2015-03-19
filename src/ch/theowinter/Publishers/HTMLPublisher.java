@@ -1,4 +1,6 @@
-package ch.theowinter;
+package ch.theowinter.publishers;
+
+import ch.theowinter.ChainEvent;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -26,7 +28,7 @@ public class HTMLPublisher {
             for(ChainEvent chainEvent : eventList){
                 String event = chainEvent.occurance + " " + chainEvent.name;
                 event = event.replace("'", "");
-                buffer.append("    listView.append('<p>" + event + "</p>');\n");
+                buffer.append("    listView.append('<li class=\"list-group-item\">" + event + "</li>');\n");
             }
             buffer.append(
                     "</script>\n" +

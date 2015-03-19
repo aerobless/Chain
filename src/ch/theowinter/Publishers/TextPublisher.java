@@ -1,4 +1,6 @@
-package ch.theowinter;
+package ch.theowinter.publishers;
+
+import ch.theowinter.ChainEvent;
 
 import java.util.Collections;
 import java.util.List;

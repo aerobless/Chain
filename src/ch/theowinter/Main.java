@@ -1,5 +1,6 @@
 package ch.theowinter;
 
+import ch.theowinter.producers.DirectoryFileProducer;
 import ch.theowinter.producers.GoogleCalendarProducer;
 import ch.theowinter.producers.SimpleCalendarProducer;
 import ch.theowinter.publishers.HTMLPublisher;
@@ -13,12 +14,16 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
+
         String birthday = "15/09/1991";
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         try{
             Date date = format.parse(birthday);
             SimpleCalendarProducer birthdays = new SimpleCalendarProducer("Birthday", date, null);
             List<ChainEvent> eventList = birthdays.compileChain();
+
+            DirectoryFileProducer pictures = new DirectoryFileProducer("/Users/theowinter/Pictures","jpg");
+            eventList.addAll(pictures.compileChain());
 
             GoogleCalendarProducer googleCalendarProducer = new GoogleCalendarProducer();
             eventList.addAll(googleCalendarProducer.compileChain());

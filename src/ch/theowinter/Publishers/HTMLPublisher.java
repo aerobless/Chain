@@ -26,7 +26,7 @@ public class HTMLPublisher {
             buffer.append(readFile("src/ch/theowinter/html/index.html", StandardCharsets.UTF_8));
 
             for(ChainEvent chainEvent : eventList){
-                String event = chainEvent.occurance + " " + chainEvent.name;
+                String event = chainEvent.occurrence + " " + chainEvent.name;
                 event = event.replace("'", "");
                 buffer.append("    listView.append('<li class=\"list-group-item\">" + event + "</li>');\n");
             }

@@ -15,7 +15,7 @@ public class TextPublisher {
 
     public void publish(){
         for(ChainEvent chainEvent : eventList){
-            System.out.println(chainEvent.occurance+" "+ chainEvent.name);
+            System.out.println(chainEvent.occurrence +" "+ chainEvent.name);
         }
     }
 }

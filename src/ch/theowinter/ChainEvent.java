@@ -5,12 +5,12 @@ import java.util.Date;
 public class ChainEvent implements Comparable<ChainEvent>{
     public String name;
     public String type;
-    public Date occurance;
+    public Date occurrence;
 
-    public ChainEvent(String name, String type, Date occurance) {
+    public ChainEvent(String name, String type, Date occurrence) {
         this.name = name;
         this.type = type;
-        this.occurance = occurance;
+        this.occurrence = occurrence;
     }
 
     @Override
@@ -21,7 +21,7 @@ public class ChainEvent implements Comparable<ChainEvent>{
         ChainEvent chainEvent = (ChainEvent) o;
 
         if (!name.equals(chainEvent.name)) return false;
-        if (!occurance.equals(chainEvent.occurance)) return false;
+        if (!occurrence.equals(chainEvent.occurrence)) return false;
 
         return true;
     }
@@ -29,15 +29,15 @@ public class ChainEvent implements Comparable<ChainEvent>{
     @Override
     public int hashCode() {
         int result = name.hashCode();
-        result = 31 * result + occurance.hashCode();
+        result = 31 * result + occurrence.hashCode();
         return result;
     }
 
     @Override
     public int compareTo(ChainEvent otherEvent) {
-        if(this.occurance == otherEvent.occurance){
+        if(this.occurrence == otherEvent.occurrence){
             return 0;
-        } else if(this.occurance.compareTo(otherEvent.occurance)>0){
+        } else if(this.occurrence.compareTo(otherEvent.occurrence)>0){
             return 1;
         } else {
             return -1;

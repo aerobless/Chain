@@ -4,9 +4,14 @@ import ch.theowinter.Chain;
 import ch.theowinter.ChainEvent;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DirectoryFileProducer implements Chain {
@@ -18,7 +23,7 @@ public class DirectoryFileProducer implements Chain {
         this.filetype = filetype;
     }
 
-    public List<ChainEvent> getFolderContent(String path) throws ParseException {
+    public List<ChainEvent> getFolderContent(String path) throws ParseException, IOException {
         File folder = new File(path);
         File[] listOfFiles = folder.listFiles();
 
@@ -26,11 +31,12 @@ public class DirectoryFileProducer implements Chain {
 
         for (int i = 0; i < listOfFiles.length; i++) {
             if (listOfFiles[i].isFile() && listOfFiles[i].getName().contains(filetype)) {
-                //System.out.println("File " + listOfFiles[i].getName());
-                File currentFile = new File(listOfFiles[i].getAbsolutePath());
-                //TODO: last modified is not what we want.
-                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-                results.add(new ChainEvent("File with Type "+filetype, listOfFiles[i].getAbsolutePath(), sdf.parse(sdf.format(listOfFiles[i].lastModified()))));
+                Path pPath = Paths.get(listOfFiles[i].getAbsolutePath());
+                System.out.println(listOfFiles[i].getAbsolutePath());
+                BasicFileAttributes attributes = Files.readAttributes(pPath, BasicFileAttributes.class);
+
+                System.out.println(new Date(attributes.creationTime().toMillis()));
+                results.add(new ChainEvent("File with Type "+filetype, listOfFiles[i].getAbsolutePath(), new Date(attributes.creationTime().toMillis())));
             }
         }
         return results;
@@ -40,6 +46,8 @@ public class DirectoryFileProducer implements Chain {
         try {
             return getFolderContent(path);
         } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;

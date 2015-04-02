@@ -42,7 +42,7 @@ public class DirectoryFileProducer implements Chain {
                     BasicFileAttributes attributes = Files.readAttributes(pPath, BasicFileAttributes.class);
                     creationDate = new Date(attributes.creationTime().toMillis());
                 }
-                results.add(new ChainEvent("File with Type "+filetype, listOfFiles[i].getAbsolutePath(), creationDate));
+                results.add(new ChainEvent(filetype+" File "+listOfFiles[i].getAbsolutePath(), filetype, creationDate));
             }
         }
         return results;

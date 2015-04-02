@@ -33,9 +33,9 @@ public class HTMLPublisher {
                         buffer.append("<i class=\""+selectTypeIcon(sanitize(chainEvent.type).toLowerCase())+" fa-5x\"></i>");
                     buffer.append("</div>");
                     buffer.append("<div class=\"col-xs-11\">");
-                        buffer.append("<b>Type: </b>"+sanitize(chainEvent.type)+"<br>");
+                        buffer.append("<b>"+sanitize(chainEvent.name)+"</b><br>");
                         buffer.append("<b>Occurance: </b>"+sanitize(chainEvent.occurrence+"")+"<br>");
-                        buffer.append("<b>Name: </b>"+sanitize(chainEvent.name)+"<br>");
+                        buffer.append("<b>Type: </b>"+sanitize(chainEvent.type)+"<br>");
                     buffer.append("</div>");
                 buffer.append("</div>");
                 buffer.append("</li>'");
@@ -77,9 +77,9 @@ public class HTMLPublisher {
             result = "fa fa-birthday-cake";
         } else if(type.equals("calendar")){
             result = "fa fa-calendar";
-        } else if(type.equals("jpeg")){
+        } else if(type.equals("jpg") || type.equals("jpeg") || type.equals("png") || type.equals("cr2") || type.equals("dng")){
             result = "fa fa-camera";
-        } else if(type.equals("txt")){
+        } else if(type.equals("txt") || type.equals("doc") || type.equals("pages") || type.equals("docx")){
             result = "fa fa-file-text";
         }
         return result;

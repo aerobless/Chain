@@ -28,9 +28,16 @@ public class HTMLPublisher {
             for(ChainEvent chainEvent : eventList){
                 buffer.append("    listView.append('");
                 buffer.append("<li class=\"list-group-item\">");
-                buffer.append("<b>Type: </b>"+sanitize(chainEvent.type)+"<br>");
-                buffer.append("<b>Occurance: </b>"+sanitize(chainEvent.occurrence+"")+"<br>");
-                buffer.append("<b>Name: </b>"+sanitize(chainEvent.name)+"<br>");
+                buffer.append("<div class=\"row\">");
+                    buffer.append("<div class=\"col-xs-1\">");
+                        buffer.append("<i class=\""+selectTypeIcon(sanitize(chainEvent.type).toLowerCase())+" fa-5x\"></i>");
+                    buffer.append("</div>");
+                    buffer.append("<div class=\"col-xs-11\">");
+                        buffer.append("<b>Type: </b>"+sanitize(chainEvent.type)+"<br>");
+                        buffer.append("<b>Occurance: </b>"+sanitize(chainEvent.occurrence+"")+"<br>");
+                        buffer.append("<b>Name: </b>"+sanitize(chainEvent.name)+"<br>");
+                    buffer.append("</div>");
+                buffer.append("</div>");
                 buffer.append("</li>'");
                 buffer.append(");\n");
             }
@@ -62,5 +69,19 @@ public class HTMLPublisher {
 
     public String sanitize(String input){
         return input.replace("'", "");
+    }
+
+    public String selectTypeIcon(String type){
+        String result = "fa fa-paper-plane";
+        if(type.equals("birthday")){
+            result = "fa fa-birthday-cake";
+        } else if(type.equals("calendar")){
+            result = "fa fa-calendar";
+        } else if(type.equals("jpeg")){
+            result = "fa fa-camera";
+        } else if(type.equals("txt")){
+            result = "fa fa-file-text";
+        }
+        return result;
     }
 }

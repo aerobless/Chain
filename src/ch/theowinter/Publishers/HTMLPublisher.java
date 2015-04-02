@@ -26,9 +26,13 @@ public class HTMLPublisher {
             buffer.append(readFile("src/ch/theowinter/html/index.html", StandardCharsets.UTF_8));
 
             for(ChainEvent chainEvent : eventList){
-                String event = chainEvent.occurrence + " " + chainEvent.name;
-                event = event.replace("'", "");
-                buffer.append("    listView.append('<li class=\"list-group-item\">" + event + "</li>');\n");
+                buffer.append("    listView.append('");
+                buffer.append("<li class=\"list-group-item\">");
+                buffer.append("<b>Type: </b>"+sanitize(chainEvent.type)+"<br>");
+                buffer.append("<b>Occurance: </b>"+sanitize(chainEvent.occurrence+"")+"<br>");
+                buffer.append("<b>Name: </b>"+sanitize(chainEvent.name)+"<br>");
+                buffer.append("</li>'");
+                buffer.append(");\n");
             }
             buffer.append(
                     "</script>\n" +
@@ -49,10 +53,14 @@ public class HTMLPublisher {
         return new String(encoded, encoding);
     }
 
-    public static void writeToFile(String pFilename, StringBuffer pData) throws IOException {
+    public void writeToFile(String pFilename, StringBuffer pData) throws IOException {
         BufferedWriter out = new BufferedWriter(new FileWriter(pFilename));
         out.write(pData.toString());
         out.flush();
         out.close();
+    }
+
+    public String sanitize(String input){
+        return input.replace("'", "");
     }
 }

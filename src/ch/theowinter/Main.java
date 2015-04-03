@@ -1,19 +1,21 @@
 package ch.theowinter;
 
-import ch.theowinter.producers.DirectoryFileProducer;
-import ch.theowinter.producers.GoogleCalendarProducer;
-import ch.theowinter.producers.SimpleCalendarProducer;
-import ch.theowinter.publishers.HTMLPublisher;
+import ch.theowinter.producers.GoogleMessageProducer;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
 public class Main {
 
     public static void main(String[] args) {
 
+        GoogleMessageProducer gmail = new GoogleMessageProducer();
+        try {
+            gmail.run();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        /*
         List<ChainEvent> chainOfEvents = new ArrayList<ChainEvent>();
 
         try{
@@ -37,6 +39,6 @@ public class Main {
             System.out.println("Gracefully finished execution ..");
         }catch (Exception e){
             System.out.println("Error"+e);
-        }
+        }*/
     }
 }

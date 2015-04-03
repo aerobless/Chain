@@ -29,10 +29,10 @@ public class HTMLPublisher {
                 buffer.append("    listView.append('");
                 buffer.append("<li class=\"list-group-item\">");
                 buffer.append("<div class=\"row\">");
-                    buffer.append("<div class=\"col-xs-1\">");
+                    buffer.append("<div class=\"col-xs-2\">");
                         buffer.append("<i class=\""+selectTypeIcon(sanitize(chainEvent.type).toLowerCase())+" fa-5x\"></i>");
                     buffer.append("</div>");
-                    buffer.append("<div class=\"col-xs-11\">");
+                    buffer.append("<div class=\"col-xs-5\">");
                         buffer.append("<b>"+sanitize(chainEvent.name)+"</b><br>");
                         buffer.append("<b>Occurance: </b>"+sanitize(chainEvent.occurrence+"")+"<br>");
                         buffer.append("<b>Type: </b>"+sanitize(chainEvent.type)+"<br>");

@@ -33,7 +33,7 @@ public class SimpleCalendarProducer implements Chain {
         int startyear = calendar.get(Calendar.YEAR);
 
         List<ChainEvent> resultList = new ArrayList<ChainEvent>();
-        int counter = 1;
+        int counter = 0;
         for(int i=startyear; i<endyear; i++){
             resultList.add(new ChainEvent(counter+". "+name, name, calendar.getTime()));
             calendar.add(Calendar.YEAR, 1);

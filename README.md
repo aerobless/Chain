@@ -7,11 +7,11 @@ Another example would be to document ones life events. Google & Facebook already
 so why shouldn't we be able to aggregate that data for personal use as well. With such a chain of data you'd be able
 to tell what happened each day of your life even if it was a few years ago and you don't remember.
 
-##How does it work?
+## How does it work?
 Chain consists of "Producers" that gather data and transform it into a list of "ChainEvent"s. That list can then be
 output via a "Publisher" of your choice.
 
-##Current features
+## Current features
  + **Producers** (gather data)
    + **DirectoryFileProducer:** All files in a folder, organized by their creation date. The creation-date can either be specified in the filename or automatically read from the meta-data.
    + **GoogleCalendarProducer:** Download all the events in your primary Google Calendar.
@@ -20,14 +20,14 @@ output via a "Publisher" of your choice.
    + **HTMLPublisher:** Generate a HTML file containing a paginated list of all events. The list of events is generated via infinity.js so it can be as long as you want without performance impact.
    + **TextPublisher:** Outputs the chain of events to the console.
 
-##Planned features
+## Planned features
  + Directly embed images/photographs aggregated via DirectoryFileProducer.
  + Directly embed text aggregated via DirectoryFileProducer.
  + Nicer design of website output by HTMLPublisher.
  + Configuration, so that Chain can be used as binary without an IDE.
  + Library version, so that Chain can bed embedded in other projects.
 
-##License
+## License
 The MIT License (MIT)
 
 Copyright (c) 2015 Theo Winter
